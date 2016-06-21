@@ -1,0 +1,12 @@
+D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.exe
+D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.pdb
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.csprojResolveAssemblyReference.cache
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.csproj.GenerateResource.Cache
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.exe
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.pdb
+D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.exe.manifest
+D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.application
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.exe.manifest
+D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.application
