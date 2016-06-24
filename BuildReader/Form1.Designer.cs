@@ -35,6 +35,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -89,6 +90,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.listBox1);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Location = new System.Drawing.Point(12, 240);
@@ -104,6 +106,16 @@
             this.listBox1.Size = new System.Drawing.Size(788, 225);
             this.listBox1.TabIndex = 5;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(16, 248);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(102, 34);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Указать папку с билдами";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
@@ -131,6 +143,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ListBox listBox1;
         public System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

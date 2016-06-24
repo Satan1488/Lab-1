@@ -30,10 +30,10 @@ namespace WindowsFormsApplication1
 
         {
             InitializeComponent();
-
+            
             keybd_event(0x20, 0x45, 0x1, (UIntPtr)0);
 
-            _hook = new Hook(0x20); //Передаем код клавиши на которую ставим хук, тут это CapsLock
+            _hook = new Hook(0x20); //Передаем код клавиши на которую ставим хук, тут это Space
 
             _hook.KeyPressed += new KeyPressEventHandler(_hook_KeyPressed);
             _hook.SetHook();
@@ -52,15 +52,27 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FileStream bit = new FileStream("C:/Users/Леонид/Documents/Билды/" + textBox1.Text + ".build", FileMode.OpenOrCreate);
+            FileStream bit = new FileStream(global.guide_path + textBox1.Text + ".build", FileMode.OpenOrCreate);
             byte[] array = System.Text.Encoding.Default.GetBytes(textBox2.Text);
             bit.Write(array, 0, array.Length);
             bit.Close();
         }
+        private void Get_Path()
+        {
+            using (var dialog = new FolderBrowserDialog())
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    global.guide_path = dialog.SelectedPath;
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            global.files = Directory.GetFiles(@"C:/Users/Леонид/Documents/Билды/");
+            if (global.guide_path != "") {
+                global.files = Directory.GetFiles(global.guide_path);
+            }
+            else
+            {
+                Get_Path();
+            }
             listBox1.Items.Clear();
             string nf;
             for (int i = 0; i < global.files.Length; i++)
@@ -75,7 +87,14 @@ namespace WindowsFormsApplication1
         private void button2_Click(object sender, EventArgs e)
         {
 
-            global.files = Directory.GetFiles(@"C:/Users/Леонид/Documents/Билды/");
+            if (global.guide_path != "")
+            {
+                global.files = Directory.GetFiles(global.guide_path);
+            }
+            else
+            {
+                Get_Path();
+            }
             listBox1.Items.Clear();
             string nf;
             for (int i = 0; i < global.files.Length; i++)
@@ -91,7 +110,7 @@ namespace WindowsFormsApplication1
         {
             String s;
             s = listBox1.SelectedItem.ToString();
-            global.fs = new FileStream("C:/Users/Леонид/Documents/Билды/" + s+".build",FileMode.Open);
+            global.fs = new FileStream(global.guide_path+"/"+listBox1.Text+".build",FileMode.Open); 
             global.readbuild = new StreamReader(global.fs,System.Text.Encoding.Default);
             global.stroka = global.readbuild.ReadLine();
             myMethod(global.stroka);
@@ -127,6 +146,8 @@ namespace WindowsFormsApplication1
         //захватив который, как известно, можно перемещать окно
         const int WM_NCHITTEST = 0x0084;
         const int HTCAPTION = 2;
+        private object openFileDialog;
+
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_NCHITTEST)
@@ -136,5 +157,10 @@ namespace WindowsFormsApplication1
             }
             base.WndProc(ref m);
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Get_Path();
+            }
+        }
     }
-}
