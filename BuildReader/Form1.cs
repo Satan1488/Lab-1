@@ -40,6 +40,7 @@ namespace WindowsFormsApplication1
             //this.TopMost = true;
         }
 
+
         void _hook_KeyPressed(object sender, KeyPressEventArgs e) //Событие нажатия клавиш
         {          
             if (global.vkl == true)
@@ -60,8 +61,10 @@ namespace WindowsFormsApplication1
         private void Get_Path()
         {
             using (var dialog = new FolderBrowserDialog())
+            {            
                 if (dialog.ShowDialog() == DialogResult.OK)
                     global.guide_path = dialog.SelectedPath;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -82,6 +85,7 @@ namespace WindowsFormsApplication1
                 nf = nf.Replace(".build", "");
                 listBox1.Items.Add(nf);
             }
+            button2_Click(sender, e);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -89,7 +93,7 @@ namespace WindowsFormsApplication1
 
             if (global.guide_path != "")
             {
-                global.files = Directory.GetFiles(global.guide_path);
+                global.files = Directory.GetFiles(global.guide_path, "*.build");
             }
             else
             {
@@ -100,8 +104,11 @@ namespace WindowsFormsApplication1
             for (int i = 0; i < global.files.Length; i++)
             {
                 nf = global.files[i];
-                nf = nf.Remove(0, 32);
-                nf = nf.Replace(".build", "");
+                while (nf.IndexOf(@"\") >= 0)
+                {
+                    nf=nf.Remove(0, 1);
+                }
+                nf = nf.Remove(nf.IndexOf("."), 6);
                 listBox1.Items.Add(nf);
             }
         }
@@ -138,7 +145,7 @@ namespace WindowsFormsApplication1
         protected override void OnPaint(PaintEventArgs e)
         {
 
-            LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, Color.Black, Color.Black, 10);
+            LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, Color.Blue, Color.Red, 10);
             e.Graphics.FillRectangle(brush, 0, 0, stringSize.Width, stringSize.Height);
         }
 
@@ -146,7 +153,6 @@ namespace WindowsFormsApplication1
         //захватив который, как известно, можно перемещать окно
         const int WM_NCHITTEST = 0x0084;
         const int HTCAPTION = 2;
-        private object openFileDialog;
 
         protected override void WndProc(ref Message m)
         {
