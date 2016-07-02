@@ -13,6 +13,6 @@ namespace WindowsFormsApplication1
         public static string stroka;
         public static FileStream fs;
         public static bool vkl=false;
-        public static string guide_path = ""; //The variable to store the path to the build of StarCraft.
+        public static string guide_path = Properties.Settings.Default.path; //The variable to store the path to the build of StarCraft.
     }
 }

@@ -10,3 +10,4 @@ D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.exe.manifest
 D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.application
 D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.exe.manifest
 D:\ \visual c#\BuildReader\BuildReader\obj\x86\Debug\BuildReader.application
+D:\ \visual c#\BuildReader\BuildReader\bin\Debug\BuildReader.exe.config

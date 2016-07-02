@@ -30,7 +30,9 @@ namespace WindowsFormsApplication1
 
         {
             InitializeComponent();
+
             
+
             keybd_event(0x20, 0x45, 0x1, (UIntPtr)0);
 
             _hook = new Hook(0x20); //Передаем код клавиши на которую ставим хук, тут это Space
@@ -69,6 +71,7 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            global.guide_path = Properties.Settings.Default.path;
             if (global.guide_path != "") {
                 global.files = Directory.GetFiles(global.guide_path);
             }
@@ -125,22 +128,26 @@ namespace WindowsFormsApplication1
         }
         void myMethod(string text)
         {
-            // вот здесь устанавливай нужное значение строки
-            PATH_STRING = text;
-            ++i;
+            if (text != "")
+            {
+                // вот здесь устанавливай нужное значение строки
+                PATH_STRING = text;
+                ++i;
 
-            //Получаем оконные координаты верхней левой точки клиентской области
-            Point origin = new Point(SystemInformation.Border3DSize.Width, SystemInformation.CaptionHeight);
-            //При помощи GraphicsPath создаем Region в виде строки
-            GraphicsPath path = new GraphicsPath();
+                //Получаем оконные координаты верхней левой точки клиентской области
+                Point origin = new Point(SystemInformation.Border3DSize.Width, SystemInformation.CaptionHeight);
+                //При помощи GraphicsPath создаем Region в виде строки
+                GraphicsPath path = new GraphicsPath();
 
-            path.AddString(PATH_STRING, Font.FontFamily, (int)FONT_STYLE, FONT_SIZE, origin, StringFormat.GenericDefault);
+                path.AddString(PATH_STRING, Font.FontFamily, (int)FONT_STYLE, FONT_SIZE, origin, StringFormat.GenericDefault);
 
-            //Устанавливаем регион для формы
-            Region = new Region(path);
-            //Вычисляем размеры прямоугольника, занимаемого строкой
-            stringSize = CreateGraphics().MeasureString(PATH_STRING, new Font(Font.FontFamily, FONT_SIZE, FONT_STYLE));
-            Width = (int)Math.Ceiling(stringSize.Width);
+                //Устанавливаем регион для формы
+                Region = new Region(path);
+                //Вычисляем размеры прямоугольника, занимаемого строкой
+                stringSize = CreateGraphics().MeasureString(PATH_STRING, new Font(Font.FontFamily, FONT_SIZE, FONT_STYLE));
+                Width = (int)Math.Ceiling(stringSize.Width);
+            }
+            else
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -168,5 +175,10 @@ namespace WindowsFormsApplication1
         {
             Get_Path();
             }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.path = global.guide_path;
         }
+    }
     }
