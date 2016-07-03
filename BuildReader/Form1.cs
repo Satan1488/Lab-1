@@ -39,7 +39,7 @@ namespace WindowsFormsApplication1
 
             _hook.KeyPressed += new KeyPressEventHandler(_hook_KeyPressed);
             _hook.SetHook();
-            //this.TopMost = true;
+            this.TopMost = true;
         }
 
 
@@ -60,24 +60,34 @@ namespace WindowsFormsApplication1
             bit.Write(array, 0, array.Length);
             bit.Close();
         }
-        private void Get_Path()
+        private void Get_Path()//to open the window, select the directory build
         {
             using (var dialog = new FolderBrowserDialog())
-            {            
+            {
                 if (dialog.ShowDialog() == DialogResult.OK)
+                {
                     global.guide_path = dialog.SelectedPath;
+                    Properties.Settings.Default.path = global.guide_path;
+                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    System.Environment.Exit(1);
+                }
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            notifyIcon1.Icon = new Icon(@"D:\ \visual c#\BuildReader\addthis.ico");
             global.guide_path = Properties.Settings.Default.path;
-            if (global.guide_path != "") {
+            if (global.guide_path != "null") {
                 global.files = Directory.GetFiles(global.guide_path);
             }
             else
             {
                 Get_Path();
+                button2_Click(sender, e);
             }
             listBox1.Items.Clear();
             string nf;
@@ -94,7 +104,7 @@ namespace WindowsFormsApplication1
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if (global.guide_path != "")
+            if (global.guide_path != "null")
             {
                 global.files = Directory.GetFiles(global.guide_path, "*.build");
             }
@@ -128,7 +138,7 @@ namespace WindowsFormsApplication1
         }
         void myMethod(string text)
         {
-            if (text != "")
+            if (text != "end;")
             {
                 // вот здесь устанавливай нужное значение строки
                 PATH_STRING = text;
@@ -148,11 +158,16 @@ namespace WindowsFormsApplication1
                 Width = (int)Math.Ceiling(stringSize.Width);
             }
             else
+            {
+                //System.Windows.Forms.Application.Restart(); -restart program
+                //System.Environment.Exit(1);
+                Hide();
+            }
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-
-            LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, Color.Blue, Color.Red, 10);
+            
+            LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, Color.Red, Color.Red, 10);
             e.Graphics.FillRectangle(brush, 0, 0, stringSize.Width, stringSize.Height);
         }
 
@@ -174,11 +189,19 @@ namespace WindowsFormsApplication1
         private void button3_Click(object sender, EventArgs e)
         {
             Get_Path();
-            }
+            button2_Click(sender, e);
+        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.path = global.guide_path;
+            Properties.Settings.Default.Save();
+        }
+
+        private void notifyIcon1_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Restart();
+            System.Environment.Exit(1);
         }
     }
     }
