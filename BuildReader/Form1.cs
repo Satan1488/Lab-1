@@ -55,10 +55,21 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FileStream bit = new FileStream(global.guide_path + textBox1.Text + ".build", FileMode.OpenOrCreate);
-            byte[] array = System.Text.Encoding.Default.GetBytes(textBox2.Text);
-            bit.Write(array, 0, array.Length);
-            bit.Close();
+            using (var create_dialog = new FolderBrowserDialog())
+            {
+                string save_path = "null";
+                if (create_dialog.ShowDialog() == DialogResult.OK)
+                {
+                    save_path = create_dialog.SelectedPath;
+                    textBox2.AppendText(Environment.NewLine+"end;");
+                    FileStream bit = new FileStream(save_path+ @"\" + textBox1.Text + ".build", FileMode.OpenOrCreate);
+                    byte[] array = System.Text.Encoding.Default.GetBytes(textBox2.Text);
+                    bit.Write(array, 0, array.Length);
+                    bit.Close();
+                    var lines = textBox2.Lines.ToList();
+                    lines.RemoveAt(textBox2.Lines.Length - 1);
+                }
+            }
         }
         private void Get_Path()//to open the window, select the directory build
         {
